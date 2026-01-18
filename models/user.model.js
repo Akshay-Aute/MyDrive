@@ -4,27 +4,27 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    trim:true,
-    lowercase:true,
-    unique:true,
-    minlength:[8,'username must be at least 8 characters long']
+    trim: true,
+    lowercase: true,
+    unique: true,
+    minlength: [3, "username must be at least 8 characters long"],
   },
   email: {
     type: String,
     required: true,
-    trim:true,
-    lowercase:true,
-    unique:true,
-    minlength:[12,'email must be at least 12 characters long']
+    trim: true,
+    lowercase: true,
+    unique: true,
+    minlength: [12, "email must be at least 12 characters long"],
   },
   password: {
     type: String,
     required: true,
-    trim:true,
-    unique:true,
-    minlength:[8,'password must be at least 8 characters long']
-  }
+    trim: true,
+    unique: true,
+    minlength: [6, "password must be at least 8 characters long"],
+  },
 });
 
-const user = mongoose.model('user',userSchema);
+const user = mongoose.model("user", userSchema);
 module.exports = user;

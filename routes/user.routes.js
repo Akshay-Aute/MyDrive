@@ -14,9 +14,9 @@ router.get("/register", (req, res) => {
 // Handle user registration
 router.post(
   "/register",
-  body("username").trim().isLength({ min: 5 }),
+  body("username").trim().isLength({ min: 3 }),
   body("email").trim().isEmail().isLength({ min: 12 }),
-  body("password").trim().isLength({ min: 8 }),
+  body("password").trim().isLength({ min: 6 }),
   async (req, res) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
@@ -43,14 +43,15 @@ router.post(
 );
 
 // Render login page
-router.get( "/login", (req, res) => {
+router.get("/login", (req, res) => {
   res.render("login");
 });
 
 // Handle user login
-router.post( "/login",
+router.post(
+  "/login",
   body("email").trim().isEmail().isLength({ min: 12 }),
-  body("password").trim().isLength({ min: 8 }),
+  body("password").trim().isLength({ min: 6 }),
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -91,13 +92,24 @@ router.post( "/login",
       },
       process.env.JWT_SECRET,
     );
-    res.cookie("token",token);
-    res.send("Login Successful");
-
+    res.cookie("token", token);
+    res.render("fileupload", { files: [] });
   },
 );
 
+// Handle user logout
+router.get("/logout", (req, res) => {
+  try {
+    // 1. Clear the specific cookie named 'token'
+    res.clearCookie("token");
 
+    // 2. Redirect to your login page (Update path if necessary)
+    res.redirect("/user/login");
+  } catch (err) {
+    console.log("Logout error:", err);
+    res.status(500).send("Could not log out");
+  }
+});
 
 // Export the router
 module.exports = router;

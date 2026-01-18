@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <h1>Registration Page</h1>
-        <form action="/user/register" method="post">
+        <form action="/user/register" method="post" autocomplete="off">
             <div class="form-group">
                 <label for="name">Username</label>
                 <input id="name" type="text" name="username" placeholder="Enter name" required>
@@ -31,6 +31,12 @@
 
             <button type="submit">Submit</button>
         </form>
+        <div class="auth-footer" style="margin-top: 15px; text-align: center; font-size: 0.9rem;">
+            <p style="color: #666;">
+                Already have an account?
+                <a href="/user/login" style="color: #4caf50; font-weight: bold; text-decoration: none;">Login here</a>
+            </p>
+        </div>
     </div>
 </body>
 

@@ -1,3 +1,4 @@
++
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,80 +8,129 @@
     <title>Home Page</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4caf50;
+        }
+    </style>
 </head>
 
-<body class="bg-black text-white"> <main class="p-4 flex flex-col items-center justify-center min-h-screen">
-        
-        <button onclick="showPop()" class="bg-[#4caf50] hover:bg-[#43a047] text-white font-bold py-2 px-6 rounded transition-colors">
-            upload file
+<body class="bg-black text-white font-sans">
+
+    <nav class="w-full p-4 flex justify-end items-center fixed top-0 left-0 z-40 bg-black/50 backdrop-blur-md">
+        <form action="/user/logout" method="GET">
+            <button type="submit"
+                class="text-green-300 hover:text-white flex items-center gap-2 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Logout
+            </button>
+        </form>
+    </nav>
+
+    <main class="p-4 flex flex-col items-center justify-start min-h-screen pt-24">
+
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold text-white tracking-tight">My<span class="text-[#4caf50]">Drive</span>
+            </h1>
+            <p class="text-gray-400 mt-2 text-sm uppercase tracking-widest">Firebase Cloud Storage</p>
+        </div>
+
+        <button onclick="showPop()"
+            class="bg-[#4caf50] hover:bg-[#43a047] text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 shadow-xl shadow-[#4caf50]/20">
+            + Upload New File
         </button>
 
-        <div class="pop fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50">
-            
-            <div class="bg-[#111] p-8 rounded-lg shadow-2xl border border-[#333] w-full max-w-md relative">
-                
-                <h1 class="text-white text-2xl font-bold mb-6 text-center">Upload Files</h1>
-
+        <div class="pop fixed hidden inset-0 bg-black/80 backdrop-blur-sm items-center justify-center z-50">
+            <div class="bg-[#111] p-8 rounded-2xl border border-[#333] w-full max-w-md relative">
+                <h2 class="text-white text-xl font-bold mb-6 text-center">New Upload</h2>
                 <form action="/upload" method="post" enctype="multipart/form-data">
-                    <div class="flex items-center justify-center w-full mb-4">
+                    <div class="mb-6">
                         <label for="dropzone-file"
-                            class="flex flex-col items-center justify-center w-full h-64 bg-[#1a1a1a] border-2 border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4caf50] hover:bg-[#222] transition-all">
-                            
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
-                                <svg class="w-10 h-10 mb-4 text-[#4caf50]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />
-                                </svg>
-                                
-                                <p class="mb-2 text-sm text-white">
-                                    <span class="font-semibold">Click to upload</span> or drag and drop
-                                </p>
-                                <p class="text-xs text-gray-400">
-                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                                </p>
+                            class="flex flex-col items-center justify-center w-full h-48 bg-[#1a1a1a] border-2 border-dashed border-[#444] rounded-xl cursor-pointer hover:border-[#4caf50] transition-all group">
+                            <div class="text-center px-4">
+                                <p class="text-sm text-white" id="file-label-text">Select a file from your computer</p>
                             </div>
-                            <input id="dropzone-file" type="file" class="hidden" name="file" />
+                            <input id="dropzone-file" type="file" class="hidden" name="file"
+                                onchange="updateFileName()" />
                         </label>
                     </div>
-
-                    <button class="w-full bg-[#4caf50] hover:bg-[#43a047] text-white font-bold py-2 px-4 rounded transition-colors">
-                        upload file
-                    </button>
+                    <button type="submit" class="w-full bg-[#4caf50] text-white font-bold py-3 rounded-lg">Confirm
+                        Upload</button>
                 </form>
-
-                <button onclick="hidePopUp()"
-                    class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl p-2">
-                    ✕
-                </button>
+                <button onclick="hidePopUp()" class="absolute top-4 right-4 text-gray-500 hover:text-white">✕</button>
             </div>
         </div>
 
-        <div class="files flex mt-3 flex-col gap-2">
-            <% files.forEach((file)=>{ %>
+        <div class="files flex mt-12 flex-col gap-4 w-full max-w-xl">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+                <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest">Recent Files</h3>
+                <span class="bg-[#4caf50]/10 text-[#4caf50] text-[10px] px-2 py-0.5 rounded-full font-bold">Cloud</span>
+            </div>
 
-                <div class="p-2 cursor-pointer rounded-md bg-gray-300">
-                    <h1><%= file.originalName %></h1>
-                    <a href="download/<%= file.path %>" download="<%= file.originalName %>">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded mt-1">
-                            Download
-                        </button>
-                    </a>
-                    
-                </div>
-            <% }) %>
-            
+            <% if (files && files.length> 0) { %>
+                <% files.forEach((file)=> { %>
+                    <div
+                        class="p-4 rounded-xl bg-[#0e0e0e] border border-white/5 flex items-center justify-between hover:bg-white/5 transition-all">
+                        <div class="flex items-center gap-4 truncate">
+                            <div class="p-2 bg-white/5 rounded-lg text-gray-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="truncate">
+                                <h1 class="text-sm font-medium text-white truncate">
+                                    <%= file.originalName %>
+                                </h1>
+                            </div>
+                        </div>
+                        <a href="<%= file.path %>" target="_blank" class="shrink-0 ml-4">
+                            <button
+                                class="bg-[#111] hover:bg-[#222] text-white text-xs font-bold py-2 px-5 rounded-lg border border-white/10 transition-colors">
+                                View
+                            </button>
+                        </a>
+                    </div>
+                    <% }) %>
+                        <% } else { %>
+                            <div class="text-center p-16 border-2 border-dashed border-white/5 rounded-2xl">
+                                <p class="text-gray-600 text-sm">Your storage is currently empty.</p>
+                            </div>
+                            <% } %>
         </div>
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <script>
-        function showPop() {
-            document.querySelector('.pop').style.display = 'flex';
+        function showPop() { document.querySelector('.pop').style.display = 'flex'; }
+        function hidePopUp() { document.querySelector('.pop').style.display = 'none'; }
+        function updateFileName() {
+            const input = document.getElementById('dropzone-file');
+            if (input.files.length > 0) {
+                document.getElementById('file-label-text').innerHTML = `<span class="text-[#4caf50]">Ready:</span> ${input.files[0].name}`;
+            }
         }
-
-        function hidePopUp() {
-            document.querySelector('.pop').style.display = 'none';
+        window.onclick = function (event) {
+            const pop = document.querySelector('.pop');
+            if (event.target == pop) { hidePopUp(); }
         }
     </script>
 </body>
