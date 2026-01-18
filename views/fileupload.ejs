@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-black text-white"> <main class="p-4 flex flex-col items-center justify-center min-h-screen">
+        
+        <button onclick="showPop()" class="bg-[#4caf50] hover:bg-[#43a047] text-white font-bold py-2 px-6 rounded transition-colors">
+            upload file
+        </button>
+
+        <div class="pop fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50">
+            
+            <div class="bg-[#111] p-8 rounded-lg shadow-2xl border border-[#333] w-full max-w-md relative">
+                
+                <h1 class="text-white text-2xl font-bold mb-6 text-center">Upload Files</h1>
+
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="flex items-center justify-center w-full mb-4">
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-full h-64 bg-[#1a1a1a] border-2 border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4caf50] hover:bg-[#222] transition-all">
+                            
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
+                                <svg class="w-10 h-10 mb-4 text-[#4caf50]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />
+                                </svg>
+                                
+                                <p class="mb-2 text-sm text-white">
+                                    <span class="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="text-xs text-gray-400">
+                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                </p>
+                            </div>
+                            <input id="dropzone-file" type="file" class="hidden" name="file" />
+                        </label>
+                    </div>
+
+                    <button class="w-full bg-[#4caf50] hover:bg-[#43a047] text-white font-bold py-2 px-4 rounded transition-colors">
+                        upload file
+                    </button>
+                </form>
+
+                <button onclick="hidePopUp()"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl p-2">
+                    ✕
+                </button>
+            </div>
+        </div>
+
+        <div class="files flex mt-3 flex-col gap-2">
+            <% files.forEach((file)=>{ %>
+
+                <div class="p-2 cursor-pointer rounded-md bg-gray-300">
+                    <h1><%= file.originalName %></h1>
+                    <a href="download/<%= file.path %>" download="<%= file.originalName %>">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded mt-1">
+                            Download
+                        </button>
+                    </a>
+                    
+                </div>
+            <% }) %>
+            
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script>
+        function showPop() {
+            document.querySelector('.pop').style.display = 'flex';
+        }
+
+        function hidePopUp() {
+            document.querySelector('.pop').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
